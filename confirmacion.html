@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transacción Exitosa - PSE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-between font-sans select-none">
+
+    <!-- Header institucional PSE -->
+    <header class="w-full h-20 bg-white flex items-center shadow-md">
+        <div class="w-full max-w-4xl mx-auto px-4 flex items-center justify-center">
+            <span class="text-2xl font-bold tracking-wider text-[#0073aa]">PAGOS <span class="text-[#FDB813]">PSE</span></span>
+        </div>
+    </header>
+
+    <!-- Contenido principal: Factura / Comprobante -->
+    <main class="flex-1 w-full max-w-2xl mx-auto px-4 py-8">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+            
+            <!-- Banner superior de Éxito -->
+            <div class="bg-[#053b29] text-white p-6 text-center">
+                <div class="w-16 h-16 bg-[#88f456] text-[#053b29] rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold">¡Transacción Exitosa!</h2>
+                <p class="text-sm text-gray-200 mt-1">El pago de su permiso se ha procesado correctamente.</p>
+            </div>
+
+            <!-- Detalles de la Factura -->
+            <div class="p-6 sm:p-8 space-y-6 text-gray-800">
+                
+                <div class="border-b pb-4 flex justify-between items-center text-sm">
+                    <span class="text-gray-500 font-medium">Estado de la transacción:</span>
+                    <span class="bg-green-100 text-green-800 font-bold px-3 py-1 rounded-full text-xs">APROBADA</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <span class="block text-gray-500 text-xs">Referencia de pago:</span>
+                        <span class="font-bold text-gray-900" id="lblReferencia">PYS-2026-98421</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-500 text-xs">Fecha y hora:</span>
+                        <span class="font-bold text-gray-900" id="lblFecha">04/11/2026 - 20:00</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-500 text-xs">Método de pago:</span>
+                        <span class="font-bold text-gray-900 uppercase" id="lblBanco">PSE (Nequi / Banco)</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-500 text-xs">Correo electrónico:</span>
+                        <span class="font-bold text-gray-900" id="lblCorreo">correo@ejemplo.com</span>
+                    </div>
+                </div>
+
+                <!-- Tabla de productos / placas -->
+                <div class="border-t border-b py-4">
+                    <span class="block text-xs font-semibold text-gray-500 uppercase mb-3">Detalle del servicio</span>
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="font-medium text-gray-700">Pico y Placa Solidario (Permiso)</span>
+                            <span class="font-bold text-gray-900" id="lblValorTotal">$87.900</span>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500">
+                            <span>Placa(s) asociada(s):</span>
+                            <span id="lblPlacas" class="font-semibold text-gray-700">ASA121</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Pagado -->
+                <div class="flex justify-between items-center pt-2">
+                    <span class="text-base font-bold text-gray-900">Total Pagado:</span>
+                    <span class="text-2xl font-extrabold text-[#053b29]" id="lblValorFinal">$87.900</span>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="flex flex-col sm:flex-row gap-3 pt-4">
+                    <button onclick="window.print()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-xl transition-all text-center text-sm cursor-pointer">
+                        Imprimir Comprobante
+                    </button>
+                    <a href="../index.html" class="flex-1 bg-[#053b29] hover:bg-emerald-900 text-white font-bold py-3 px-4 rounded-xl transition-all text-center text-sm">
+                        Finalizar y Volver al Inicio
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 text-xs text-gray-500">
+        <p>Vigilado Superintendencia Financiera de Colombia • Pasarela Segura PSE</p>
+    </footer>
+
+    <!-- Script para cargar dinámicamente los datos de localStorage -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const banco = localStorage.getItem('pse_banco') || 'PSE';
+            const valor = localStorage.getItem('pse_valor') || '87900';
+            const placas = localStorage.getItem('pse_placas') || 'ASA121';
+            const correo = localStorage.getItem('pse_correo') || 'cliente@correo.com';
+
+            document.getElementById('lblBanco').textContent = banco;
+            document.getElementById('lblCorreo').textContent = correo;
+            document.getElementById('lblPlacas').textContent = placas;
+            
+            const valorNum = Number(valor);
+            const valorFormateado = `$${valorNum.toLocaleString('es-CO')}`;
+            document.getElementById('lblValorTotal').textContent = valorFormateado;
+            document.getElementById('lblValorFinal').textContent = valorFormateado;
+
+            // Fecha actual formateada
+            const ahora = new Date();
+            const fechaStr = ahora.toLocaleDateString('es-CO') + ' - ' + ahora.toLocaleTimeString('es-CO', {hour: '2-digit', minute:'2-digit'});
+            document.getElementById('lblFecha').textContent = fechaStr;
+        });
+    </script>
+</body>
+</html>
